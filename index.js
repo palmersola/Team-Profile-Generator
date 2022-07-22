@@ -8,7 +8,7 @@ const option = [
   {
     type: "checkbox",
     name: "choice",
-    choices: ["New Engineer", "New Intern", "Quit"],
+    choices: ["New Engineer", "New Intern", "Build Site"],
     message: "What would you like to do next?"
   }
 ];
@@ -26,7 +26,7 @@ const managerData = [
     message: "Enter Manager's Email Address:"
   },
   {
-    name: "extra",
+    name: "officeNumber",
     message: "Enter Manager's Office Number:"
   }
 ];
@@ -44,7 +44,7 @@ const engineerData = [
     message: "Enter Engineer's Email Address:"
   },
   {
-    name: "extra",
+    name: "github",
     message: "Enter Engineer's Github Account:"
   }
 ];
@@ -62,7 +62,7 @@ const internData = [
     message: "Enter Intern's Email Address:"
   },
   {
-    name: "extra",
+    name: "school",
     message: "Enter Intern's School:"
   }
 ];
@@ -94,18 +94,17 @@ function generateHTML(employees) {
   );
   let ph = "";
   for (i = 0; i < employees.length; i++) {
-    console.log(employees[i]);
     if (employees[i].role === "Manager") {
-      ph = "Office Number: " + employees[i].extra;
+      ph = "Office Number: " + employees[i].officeNumber;
     } else if (employees[i].role === "Engineer") {
       ph =
         'GitHub: <a href="https://github.com/' +
-        employees[i].extra +
+        employees[i].github +
         '"target = "_blank">' +
-        employees[i].extra +
+        employees[i].github +
         "</a>";
     } else if (employees[i].role === "Intern") {
-      ph = "School: " + employees[i].extra;
+      ph = "School: " + employees[i].school;
     } else {
       continue;
     }
@@ -155,14 +154,14 @@ function options() {
       inquirer
         .prompt(engineerData)
         .then(data => {
-          const { username, id, email, extra } = data;
-          let engineer = new Engineer(username, id, email, extra);
+          const { username, id, email, github } = data;
+          let engineer = new Engineer(username, id, email, github);
           const engineerObject = {
             role: engineer.getRole(),
             username: engineer.getUsername(),
             id: engineer.getId(),
             email: engineer.getEmail(),
-            extra: engineer.getExtra()
+            github: engineer.getGithub()
           };
           employees.push(engineerObject);
         })
@@ -173,14 +172,14 @@ function options() {
       inquirer
         .prompt(internData)
         .then(data => {
-          const { username, id, email, extra } = data;
-          let intern = new Intern(username, id, email, extra);
+          const { username, id, email, school } = data;
+          let intern = new Intern(username, id, email, school);
           const internObject = {
             role: intern.getRole(),
             username: intern.getUsername(),
             id: intern.getId(),
             email: intern.getEmail(),
-            extra: intern.getExtra()
+            school: intern.getSchool()
           };
           employees.push(internObject);
         })
@@ -197,15 +196,14 @@ function init() {
   inquirer
     .prompt(managerData)
     .then(data => {
-      const { username, id, email, extra } = data;
-      const manager = new Manager(username, id, email, extra);
-      console.log(manager);
+      const { username, id, email, officeNumber } = data;
+      const manager = new Manager(username, id, email, officeNumber);
       const managerObject = {
         role: manager.getRole(),
         username: manager.getUsername(),
         id: manager.getId(),
         email: manager.getEmail(),
-        extra: manager.getExtra()
+        officeNumber: manager.getOfficeNumber()
       };
       employees.push(managerObject);
     })
